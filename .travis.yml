@@ -1,11 +1,12 @@
 language: node_js
+
 node_js:
-- "9"
+  - "9"
 
 deploy:
   provider: script
   script: "cp .npmrc.template $HOME/.npmrc && npm publish"
   skip_cleanup: true
-  on:
-    tags: true
-    condition: $TRAVIS_TAG =~ -release$
+  # on:
+  #   tags: true
+  #   condition: $TRAVIS_TAG =~ -release$
