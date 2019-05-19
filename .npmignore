@@ -1,4 +1,5 @@
 src
+.vscode
 .npmrc.template
 .travis.yml
 tsconfig.json
