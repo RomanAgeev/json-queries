@@ -7,6 +7,6 @@ deploy:
   provider: script
   script: "cp .npmrc.template $HOME/.npmrc && npm run build && npm publish"
   skip_cleanup: true
-  # on:
-  #   tags: true
-  #   condition: $TRAVIS_TAG =~ -release$
+  on:
+    tags: true
+    condition: $TRAVIS_TAG =~ -release$
