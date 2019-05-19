@@ -1,0 +1,3 @@
+always-auth=true
+registry=https://www.myget.org/F/romanageev-ci/npm/
+//www.myget.org/F/romanageev-ci/npm/:_authToken=${API_TOKEN}
