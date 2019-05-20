@@ -1,4 +1,6 @@
 src
+test
+build
 .vscode
 .npmrc.template
 .travis.yml

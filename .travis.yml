@@ -5,7 +5,7 @@ node_js:
 
 deploy:
   provider: script
-  script: "cp .npmrc.template $HOME/.npmrc && npm run build && npm publish"
+  script: "cp .npmrc.template $HOME/.npmrc && npm run build-prod && npm publish"
   skip_cleanup: true
   on:
     tags: true

@@ -5,12 +5,17 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "./node_modules/.bin/tsc --project ./tsconfig.prod.json",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "build-prod": "./node_modules/.bin/tsc --project ./tsconfig.prod.json",
+    "test": "./node_modules/.bin/mocha -r ts-node/register ./test/**/*.ts"
   },
   "author": "Roman Ageev",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
     "typescript": "^3.4.5"
   }
