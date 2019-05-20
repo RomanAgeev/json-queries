@@ -8,4 +8,4 @@ export type jsonValueType = "string" | "number" | "boolean";
 export const value = (type: jsonValueType) => (obj: any, path: string = ""): JsonParseResult =>
     typeof obj === type ?
         new JsonQuery((visitor: QueryVisitor) => [visitor.found ? [new JsonQueryResult(obj, visitor.path)] : []]) :
-        [new JsonParseError("string value is expected", path)];
+        [new JsonParseError(`value of type ${type} is expected, but "${obj}" is provided`, path)];
