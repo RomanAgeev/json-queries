@@ -1,6 +1,6 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { map, value, prop, JsonQuery, JsonQueryResult, JsonParseError, jsonValueType } from "../src";
+import { map, value, prop, JsonQuery } from "../src";
 
 describe("parse values", () => {
     const parse = map([
