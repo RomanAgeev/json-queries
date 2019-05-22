@@ -1,5 +1,5 @@
 import { JsonParser } from "./types";
-import { JsonIterator, QueryVisitor } from "../query";
+import { JsonIterator, QueryVisitor, executeQuery } from "../query";
 import { JsonParseError, handleErrors, arrayError } from "./errors";
 import { flatten } from "../utils";
 
@@ -15,14 +15,8 @@ export const array = (itemParser: JsonParser): JsonParser => (val: any, path: st
         return (visitor: QueryVisitor) =>
             visitor.found ?
                 [{ value: val, path: visitor.currentPath }] :
-                flatten(queries.map((query, index: number) => {
-                    if (visitor.goDown(`${index}`)) {
-                        const result = query(visitor);
-                        visitor.goUp();
-                        return result;
-                    }
-                    return [];
-                }));
+                flatten(queries.map((query, index: number) =>
+                    executeQuery(query, visitor, () => `${index}`)));
     }
     return [arrayError(path)];
 };

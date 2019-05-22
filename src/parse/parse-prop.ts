@@ -1,5 +1,5 @@
 import { JsonParser } from "./types";
-import { JsonIterator, QueryVisitor } from "../query";
+import { JsonIterator, QueryVisitor, executeQuery } from "../query";
 import { JsonParseError, handleErrors, propertyError } from "./errors";
 import { flatten } from "../utils";
 
@@ -19,14 +19,9 @@ export const prop = (name: string, valueParser: JsonParser): JsonParser => (val:
         return errors;
     }
 
-    return (visitor: QueryVisitor) => flatten(queries.map((query, index: number) => {
-        if (visitor.goDown(propNames[index])) {
-            const result = query(visitor);
-            visitor.goUp();
-            return result;
-        }
-        return [];
-    }));
+    return (visitor: QueryVisitor) =>
+        flatten(queries.map((query, index: number) =>
+            executeQuery(query, visitor, () => propNames[index])));
 };
 
 export const propAny = (valueParser: JsonParser): JsonParser => prop(wildcard, valueParser);
