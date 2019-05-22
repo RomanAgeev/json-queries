@@ -1,5 +1,9 @@
 export const flatten = <T>(arrays: T[][]): T[] => arrays.reduce((acc: T[], item: T[]) => [...acc, ...item], []);
 
+const segmentAny = "*";
+const segmentUp = "..";
+const segmentSeparator = "/";
+
 export function normalizeSegments(segments: string[]): string[] {
     const result: string[] = [];
     for (const segment of segments) {
@@ -15,7 +19,3 @@ export function normalizeSegments(segments: string[]): string[] {
 export const pathToSegments = (path: string): string[] => path.split(segmentSeparator);
 export const segmentsToPath = (segments: string[]): string => segments.join(segmentSeparator);
 export const matchAnySegment = (segment: string): boolean => segment === segmentAny;
-
-const segmentAny = "*";
-const segmentUp = "..";
-const segmentSeparator = "/";

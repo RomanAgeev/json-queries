@@ -29,4 +29,4 @@ export const prop = (name: string, valueParser: JsonParser): JsonParser => (val:
     }));
 };
 
-export const propAny = (valueParser: JsonParser): JsonParser => prop("*", valueParser);
+export const propAny = (valueParser: JsonParser): JsonParser => prop(wildcard, valueParser);
