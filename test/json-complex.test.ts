@@ -20,7 +20,7 @@ describe("json -> complex", () => {
         ])),
     ]);
 
-    const { query, errors } = parser({
+    const testJson = {
         first: true,
         second: {
             prop1: [
@@ -39,19 +39,20 @@ describe("json -> complex", () => {
                 },
             },
         },
-    });
+    };
+
+    const { query, errors } = parser(testJson);
+
+    expect(errors).to.be.null;
+    expect(query).to.be.not.null;
 
     it("find first", () => {
-        expect(query).to.be.not.null;
-
         expect(query!.findMany("first")).to.be.eql([
             { value: true, path: "first" },
         ]);
     });
 
     it("find second * -> * -> *", () => {
-        expect(query).to.be.not.null;
-
         expect(query!.findMany("second/*/*/*")).to.be.eql([
             { value: 1, path: "second/prop1/0/x" },
             { value: 2, path: "second/prop1/0/y" },
@@ -65,8 +66,6 @@ describe("json -> complex", () => {
     });
 
     it("find second * -> * -> x", () => {
-        expect(query).to.be.not.null;
-
         expect(query!.findMany("second/*/*/x")).to.be.eql([
             { value: 1, path: "second/prop1/0/x" },
             { value: 3, path: "second/prop1/1/x" },
@@ -76,8 +75,6 @@ describe("json -> complex", () => {
     });
 
     it("find second * -> 1 -> *", () => {
-        expect(query).to.be.not.null;
-
         expect(query!.findMany("second/*/1/*")).to.be.eql([
             { value: 3, path: "second/prop1/1/x" },
             { value: 4, path: "second/prop1/1/y" },
@@ -87,8 +84,6 @@ describe("json -> complex", () => {
     });
 
     it("find second prop2 -> * -> *", () => {
-        expect(query).to.be.not.null;
-
         expect(query!.findMany("second/prop2/*/*")).to.be.eql([
             { value: 10, path: "second/prop2/0/x" },
             { value: 20, path: "second/prop2/0/y" },
@@ -98,8 +93,6 @@ describe("json -> complex", () => {
     });
 
     it("find second prop2 -> * -> x", () => {
-        expect(query).to.be.not.null;
-
         expect(query!.findMany("second/prop2/*/x")).to.be.eql([
             { value: 10, path: "second/prop2/0/x" },
             { value: 30, path: "second/prop2/1/x" },
@@ -107,8 +100,6 @@ describe("json -> complex", () => {
     });
 
     it("find second prop2 -> 1 -> *", () => {
-        expect(query).to.be.not.null;
-
         expect(query!.findMany("second/prop2/1/*")).to.be.eql([
             { value: 30, path: "second/prop2/1/x" },
             { value: 40, path: "second/prop2/1/y" },
@@ -116,26 +107,64 @@ describe("json -> complex", () => {
     });
 
     it("find second prop2 -> 1 -> y", () => {
-        expect(query).to.be.not.null;
-
         expect(query!.findMany("second/prop2/1/y")).to.be.eql([
             { value: 40, path: "second/prop2/1/y" },
         ]);
     });
 
     it("find third -> forth -> fifth -> *", () => {
-        expect(query).to.be.not.null;
-
         expect(query!.findMany("third/forth/fifth/*")).to.be.eql([
             { value: "test leaf", path: "third/forth/fifth/leaf" },
         ]);
     });
 
     it("find third -> forth -> fifth -> leaf", () => {
-        expect(query).to.be.not.null;
-
         expect(query!.findMany("third/forth/fifth/leaf")).to.be.eql([
             { value: "test leaf", path: "third/forth/fifth/leaf" },
         ]);
+    });
+
+    it("find *", () => {
+        expect(query!.findMany("*")).to.be.eql([
+            { value: true, path: "first" },
+            { value: testJson.second, path: "second" },
+            { value: testJson.third, path: "third" },
+        ]);
+    });
+
+    it("find * -> *", () => {
+        expect(query!.findMany("*/*")).to.be.eql([
+            { value: testJson.second.prop1, path: "second/prop1" },
+            { value: testJson.second.prop2, path: "second/prop2" },
+            { value: testJson.third.forth, path: "third/forth" },
+        ]);
+    });
+
+    it("find * -> * -> *", () => {
+        expect(query!.findMany("*/*/*")).to.be.eql([
+            { value: testJson.second.prop1[0], path: "second/prop1/0" },
+            { value: testJson.second.prop1[1], path: "second/prop1/1" },
+            { value: testJson.second.prop2[0], path: "second/prop2/0" },
+            { value: testJson.second.prop2[1], path: "second/prop2/1" },
+            { value: testJson.third.forth.fifth, path: "third/forth/fifth" },
+        ]);
+    });
+
+    it("find * -> * -> * -> *", () => {
+        expect(query!.findMany("*/*/*/*")).to.be.eql([
+            { value: testJson.second.prop1[0].x, path: "second/prop1/0/x" },
+            { value: testJson.second.prop1[0].y, path: "second/prop1/0/y" },
+            { value: testJson.second.prop1[1].x, path: "second/prop1/1/x" },
+            { value: testJson.second.prop1[1].y, path: "second/prop1/1/y" },
+            { value: testJson.second.prop2[0].x, path: "second/prop2/0/x" },
+            { value: testJson.second.prop2[0].y, path: "second/prop2/0/y" },
+            { value: testJson.second.prop2[1].x, path: "second/prop2/1/x" },
+            { value: testJson.second.prop2[1].y, path: "second/prop2/1/y" },
+            { value: testJson.third.forth.fifth.leaf, path: "third/forth/fifth/leaf" },
+        ]);
+    });
+
+    it("find * -> * -> * -> * -> *", () => {
+        expect(query!.findMany("*/*/*/*/*")).to.be.eql([]);
     });
 });
