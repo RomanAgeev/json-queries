@@ -15,7 +15,7 @@ export class JsonQuery {
     private _normalizeSegments(segments: string[]): string[] {
         const result: string[] = [];
         for (const segment of segments) {
-            if (segment === ".") {
+            if (segment === "..") {
                 result.pop();
             } else {
                 result.push(segment);

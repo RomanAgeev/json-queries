@@ -167,4 +167,22 @@ describe("json -> complex", () => {
     it("find * -> * -> * -> * -> *", () => {
         expect(query!.findMany("*/*/*/*/*")).to.be.eql([]);
     });
+
+    it("path normalization", () => {
+        expect(query!.findMany("second/prop1/0/x/../y")).to.be.eql([
+            { value: 2, path: "second/prop1/0/y" },
+        ]);
+
+        expect(query!.findMany("second/prop1/0/x/../../1/x")).to.be.eql([
+            { value: 3, path: "second/prop1/1/x" },
+        ]);
+
+        expect(query!.findMany("second/prop1/0/x/../../../prop2/0/y")).to.be.eql([
+            { value: 20, path: "second/prop2/0/y" },
+        ]);
+
+        expect(query!.findMany("second/prop1/0/x/../../../../third/forth/fifth/leaf")).to.be.eql([
+            { value: "test leaf", path: "third/forth/fifth/leaf" },
+        ]);
+    });
 });
