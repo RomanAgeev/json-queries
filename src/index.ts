@@ -1,5 +1,5 @@
 export { json } from "./json";
-export { map } from "./parse/parse-map";
+export { obj } from "./parse/parse-obj";
 export { array } from "./parse/parse-array";
 export { prop } from "./parse/parse-prop";
 export { value, JsonValueType } from "./parse/parse-value";

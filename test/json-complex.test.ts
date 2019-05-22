@@ -1,19 +1,19 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { json, prop, value, map, array } from "../src";
+import { json, prop, value, obj, array } from "../src";
 
 describe("json -> complex", () => {
     const parser = json([
         prop("first", value("boolean")),
-        prop("second", map([
-            prop("*", array(map([
+        prop("second", obj([
+            prop("*", array(obj([
                 prop("x", value("number")),
                 prop("y", value("number")),
             ]))),
         ])),
-        prop("third", map([
-            prop("forth", map([
-                prop("fifth", map([
+        prop("third", obj([
+            prop("forth", obj([
+                prop("fifth", obj([
                     prop("leaf", value("string")),
                 ])),
             ])),

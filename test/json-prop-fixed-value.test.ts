@@ -1,12 +1,12 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { json, prop, map, value } from "../src";
+import { json, prop, obj, value } from "../src";
 import { propertyError, objectError } from "../src/parse";
 import { valueToString } from "./test-utils";
 
 describe("json -> prop -> fixed -> value", () => {
     const parser = json([
-        prop("fixed", map([
+        prop("fixed", obj([
             prop("prop1", value("string")),
             prop("prop2", value("string")),
         ])),

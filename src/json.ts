@@ -1,11 +1,11 @@
-import { JsonParser, JsonRootParser, map, isJsonParseError } from "./parse";
+import { JsonParser, JsonRootParser, obj, isJsonParseError } from "./parse";
 import { JsonQuery } from "./query";
 
 export const json = (propParsers: JsonParser[]): JsonRootParser => {
-    const mapParser = map(propParsers);
+    const mapParser = obj(propParsers);
 
-    return obj => {
-        const result = mapParser(obj, "");
+    return val => {
+        const result = mapParser(val, "");
 
         return isJsonParseError(result) ?
             { query: null, errors: result } :

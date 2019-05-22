@@ -3,12 +3,12 @@ import { JsonParseError, valueError } from "./errors";
 
 export type JsonValueType = "string" | "number" | "boolean";
 
-export const value = (type: JsonValueType) => (obj: any, path: string): JsonIterator | JsonParseError[] => {
-    if (typeof obj === type) {
+export const value = (type: JsonValueType) => (val: any, path: string): JsonIterator | JsonParseError[] => {
+    if (typeof val === type) {
         return (visitor: QueryVisitor) =>
             visitor.found ?
-                [{ value: obj, path: visitor.path }] :
+                [{ value: val, path: visitor.path }] :
                 [];
     }
-    return [valueError(type, obj, path)];
+    return [valueError(type, val, path)];
 };
