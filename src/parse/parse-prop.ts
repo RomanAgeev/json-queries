@@ -1,7 +1,7 @@
 import { JsonParser } from "./types";
 import { JsonIterator, QueryVisitor, executeQuery } from "../query";
 import { JsonParseError, handleErrors, propertyError } from "./errors";
-import { flatten } from "../utils";
+import { flatten, segmentsToPath } from "../utils";
 
 const wildcard = "*";
 
@@ -12,7 +12,7 @@ export const prop = (name: string, valueParser: JsonParser): JsonParser => (val:
 
     const propNames = name === wildcard ? Object.getOwnPropertyNames(val) : [name];
 
-    const results = propNames.map(propName => valueParser(val[propName], `${path}/${propName}`));
+    const results = propNames.map(propName => valueParser(val[propName], segmentsToPath([path, propName])));
 
     const { queries, errors } = handleErrors(results);
     if (errors.length > 0) {
