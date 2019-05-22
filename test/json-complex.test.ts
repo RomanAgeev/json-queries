@@ -1,12 +1,12 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { json, prop, value, obj, array } from "../src";
+import { json, prop, value, obj, array, propAny } from "../src";
 
 describe("json -> complex", () => {
     const parser = json([
         prop("first", value("boolean")),
         prop("second", obj([
-            prop("*", array(obj([
+            propAny(array(obj([
                 prop("x", value("number")),
                 prop("y", value("number")),
             ]))),

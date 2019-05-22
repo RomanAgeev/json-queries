@@ -3,12 +3,14 @@ import { JsonIterator, QueryVisitor } from "../query";
 import { JsonParseError, handleErrors, propertyError } from "./errors";
 import { flatten } from "../utils";
 
+const wildcard = "*";
+
 export const prop = (name: string, valueParser: JsonParser): JsonParser => (val: any, path: string): JsonIterator | JsonParseError[] => {
-    if (name !== "*" && !(name in val)) {
+    if (name !== wildcard && !(name in val)) {
         return [propertyError(name, path)];
     }
 
-    const propNames = name === "*" ? Object.getOwnPropertyNames(val) : [name];
+    const propNames = name === wildcard ? Object.getOwnPropertyNames(val) : [name];
 
     const results = propNames.map(propName => valueParser(val[propName], `${path}/${propName}`));
 
@@ -26,3 +28,5 @@ export const prop = (name: string, valueParser: JsonParser): JsonParser => (val:
         return [];
     }));
 };
+
+export const propAny = (valueParser: JsonParser): JsonParser => prop("*", valueParser);
