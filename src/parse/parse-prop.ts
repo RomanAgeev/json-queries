@@ -21,7 +21,7 @@ export const prop = (name: string, valueParser: JsonParser): JsonParser => (val:
 
     return (visitor: QueryVisitor) =>
         flatten(queries.map((query, index: number) =>
-            executeQuery(query, visitor, () => propNames[index])));
+            executeQuery(query, visitor, propNames[index])));
 };
 
 export const propAny = (valueParser: JsonParser): JsonParser => prop(wildcard, valueParser);

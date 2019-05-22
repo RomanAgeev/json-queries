@@ -16,7 +16,7 @@ export const array = (itemParser: JsonParser): JsonParser => (val: any, path: st
             visitor.found ?
                 [{ value: val, path: visitor.currentPath }] :
                 flatten(queries.map((query, index: number) =>
-                    executeQuery(query, visitor, () => `${index}`)));
+                    executeQuery(query, visitor, `${index}`)));
     }
     return [arrayError(path)];
 };
