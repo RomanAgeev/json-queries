@@ -1,6 +1,6 @@
 import { JsonParser } from "./types";
 import { JsonIterator, QueryVisitor } from "../query";
-import { JsonParseError, handleErrors } from "./errors";
+import { JsonParseError, handleErrors, objectError } from "./errors";
 import { flatten } from "../utils";
 
 export const map = (propParsers: JsonParser[]): JsonParser => (obj: any, path: string): JsonIterator | JsonParseError[] => {
@@ -17,5 +17,5 @@ export const map = (propParsers: JsonParser[]): JsonParser => (obj: any, path: s
                 [{ value: obj, path: visitor.path }] :
                 flatten(queries.map(query => query(visitor)));
     }
-    return [new JsonParseError("object is expected", path)];
+    return [objectError(path)];
 };

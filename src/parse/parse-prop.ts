@@ -1,11 +1,11 @@
 import { JsonParser } from "./types";
 import { JsonIterator, QueryVisitor } from "../query";
-import { JsonParseError, handleErrors } from "./errors";
+import { JsonParseError, handleErrors, propertyError } from "./errors";
 import { flatten } from "../utils";
 
 export const prop = (name: string, valueParser: JsonParser) => (obj: any, path: string): JsonIterator | JsonParseError[] => {
     if (name !== "*" && !obj[name]) {
-        return [new JsonParseError(`property ${name} is expected`, path)];
+        return [propertyError(name, path)];
     }
 
     const propNames = name === "*" ? Object.getOwnPropertyNames(obj) : [name];

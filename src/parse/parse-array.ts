@@ -1,6 +1,6 @@
 import { JsonParser } from "./types";
 import { JsonIterator, QueryVisitor } from "../query";
-import { JsonParseError, handleErrors } from "./errors";
+import { JsonParseError, handleErrors, arrayError } from "./errors";
 import { flatten } from "../utils";
 
 export const array = (itemParser: JsonParser): JsonParser => (obj: any, path: string): JsonIterator | JsonParseError[] => {
@@ -24,5 +24,5 @@ export const array = (itemParser: JsonParser): JsonParser => (obj: any, path: st
                     return [];
                 }));
     }
-    return [new JsonParseError("array is expected", path)];
+    return [arrayError(path)];
 };

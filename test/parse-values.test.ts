@@ -1,6 +1,7 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
 import { json, prop, value } from "../src";
+import { propertyError, valueError, objectError } from "../src/parse";
 
 describe("parse values", () => {
     const parser = json([
@@ -24,9 +25,9 @@ describe("parse values", () => {
         const { query, errors } = parser({});
 
         expect(errors).to.be.eql([
-            { message: "property strValue is expected", path: "" },
-            { message: "property numValue is expected", path: "" },
-            { message: "property boolValue is expected", path: "" },
+            propertyError("strValue", ""),
+            propertyError("numValue", ""),
+            propertyError("boolValue", ""),
         ]);
         expect(query).to.be.null;
     });
@@ -38,7 +39,7 @@ describe("parse values", () => {
         });
 
         expect(errors).to.be.eql([
-            { message: "property boolValue is expected", path: "" },
+            propertyError("boolValue", ""),
         ]);
         expect(query).to.be.null;
     });
@@ -51,9 +52,9 @@ describe("parse values", () => {
         });
 
         expect(errors).to.be.eql([
-            { message: "value of type string is expected, but \"true\" is provided", path: "/strValue" },
-            { message: "value of type number is expected, but \"some text\" is provided", path: "/numValue" },
-            { message: "value of type boolean is expected, but \"10\" is provided", path: "/boolValue" },
+            valueError("string", true, "/strValue"),
+            valueError("number", "some text", "/numValue"),
+            valueError("boolean", 10, "/boolValue"),
         ]);
         expect(query).to.be.null;
     });
@@ -66,8 +67,8 @@ describe("parse values", () => {
         });
 
         expect(errors).to.be.eql([
-            { message: "property strValue is expected", path: "" },
-            { message: "property numValue is expected", path: "" },
+            propertyError("strValue", ""),
+            propertyError("numValue", ""),
         ]);
         expect(query).to.be.null;
     });
@@ -81,7 +82,7 @@ describe("parse values", () => {
             const { query, errors } = parser(obj);
 
             expect(errors).to.be.eql([
-                { message: "object is expected", path: "" },
+                objectError(""),
             ]);
             expect(query).to.be.null;
         });
