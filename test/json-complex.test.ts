@@ -2,7 +2,7 @@ import { describe, it } from "mocha";
 import { expect } from "chai";
 import { json, prop, value, map, array } from "../src";
 
-describe.only("json -> complex", () => {
+describe("json -> complex", () => {
     const parser = json([
         prop("first", value("boolean")),
         prop("second", map([
