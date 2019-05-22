@@ -4,7 +4,7 @@ import { JsonParseError, handleErrors, objectError } from "./errors";
 import { flatten } from "../utils";
 
 export const map = (propParsers: JsonParser[]): JsonParser => (obj: any, path: string): JsonIterator | JsonParseError[] => {
-    if (obj) {
+    if (obj && typeof obj === "object" && !Array.isArray(obj)) {
         const results = obj ? propParsers.map(propParser => propParser(obj, path)) : [];
 
         const { queries, errors } = handleErrors(results);
