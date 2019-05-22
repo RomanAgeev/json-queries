@@ -1,12 +1,15 @@
+import { normalizeSegments, pathToSegments, segmentsToPath, matchAnySegment } from "../utils";
+
 export class QueryVisitor {
-    constructor(
-        private readonly _segments: string[]) {
+    constructor(path: string) {
+        this._segments = normalizeSegments(pathToSegments(path));
     }
 
+    private _segments: string[];
     private _accumulator: string[] = [];
 
-    public get path() {
-        return this._accumulator.join("/");
+    public get currentPath() {
+        return segmentsToPath(this._accumulator);
     }
 
     public get found(): boolean {
@@ -31,6 +34,6 @@ export class QueryVisitor {
 
     private _matchSegment(segment: string): boolean {
         const segmentSample: string = this._segments[this._index];
-        return segmentSample === "*" || segmentSample === segment;
+        return matchAnySegment(segmentSample) || segmentSample === segment;
     }
 }

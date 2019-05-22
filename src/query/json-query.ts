@@ -8,19 +8,6 @@ export class JsonQuery {
     }
 
     findMany(path: string): JsonQueryResult[] {
-        const segments = this._normalizeSegments(path.split("/"));
-        return this._iterator(new QueryVisitor(segments));
-    }
-
-    private _normalizeSegments(segments: string[]): string[] {
-        const result: string[] = [];
-        for (const segment of segments) {
-            if (segment === "..") {
-                result.pop();
-            } else {
-                result.push(segment);
-            }
-        }
-        return result;
+        return this._iterator(new QueryVisitor(path));
     }
 }

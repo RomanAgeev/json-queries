@@ -7,7 +7,7 @@ export const value = (type: JsonValueType) => (val: any, path: string): JsonIter
     if (typeof val === type) {
         return (visitor: QueryVisitor) =>
             visitor.found ?
-                [{ value: val, path: visitor.path }] :
+                [{ value: val, path: visitor.currentPath }] :
                 [];
     }
     return [valueError(type, val, path)];
