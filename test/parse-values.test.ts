@@ -19,6 +19,24 @@ describe("parse values", () => {
 
         expect(errors).to.be.null;
         expect(query).to.be.not.null;
+
+        expect(query!.findMany("strValue")).to.be.eql([
+            { value: "some text", path: "strValue" },
+        ]);
+
+        expect(query!.findMany("numValue")).to.be.eql([
+            { value: 10, path: "numValue" },
+        ]);
+
+        expect(query!.findMany("boolValue")).to.be.eql([
+            { value: true, path: "boolValue" },
+        ]);
+
+        expect(query!.findMany("*")).to.be.eql([
+            { value: "some text", path: "strValue" },
+            { value: 10, path: "numValue" },
+            { value: true, path: "boolValue" },
+        ]);
     });
 
     it("no properties", () => {
@@ -67,8 +85,8 @@ describe("parse values", () => {
         });
 
         expect(errors).to.be.eql([
-            propertyError("strValue", ""),
-            propertyError("numValue", ""),
+            valueError("string", null, "/strValue"),
+            valueError("number", undefined, "/numValue"),
         ]);
         expect(query).to.be.null;
     });

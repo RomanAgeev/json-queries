@@ -4,7 +4,7 @@ import { JsonParseError, handleErrors, propertyError } from "./errors";
 import { flatten } from "../utils";
 
 export const prop = (name: string, valueParser: JsonParser) => (obj: any, path: string): JsonIterator | JsonParseError[] => {
-    if (name !== "*" && !obj[name]) {
+    if (name !== "*" && !(name in obj)) {
         return [propertyError(name, path)];
     }
 

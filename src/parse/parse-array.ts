@@ -8,7 +8,7 @@ export const array = (itemParser: JsonParser): JsonParser => (obj: any, path: st
         const results = obj.map((item: any, index: number) => itemParser(item, `${path}/${index}`));
 
         const { queries, errors } = handleErrors(results);
-        if (errors.length  > 0) {
+        if (errors.length > 0) {
             return errors;
         }
 
