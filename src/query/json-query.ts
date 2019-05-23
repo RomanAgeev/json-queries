@@ -7,7 +7,9 @@ export class JsonQuery {
         private readonly _iterator: JsonIterator) {
     }
 
-    findMany(path: string): JsonQueryResult[] {
-        return this._iterator(new QueryVisitor(path));
+    findMany(path: string, predicate: Predicate = () => true): JsonQueryResult[] {
+        return this._iterator(new QueryVisitor(path, predicate));
     }
 }
+
+export type Predicate = (value: any) => boolean;

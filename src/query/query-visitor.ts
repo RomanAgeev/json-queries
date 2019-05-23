@@ -1,8 +1,11 @@
 import { normalizeSegments, pathToSegments, segmentsToPath, matchAnySegment } from "../utils";
+import { Predicate } from "./json-query";
 
 export class QueryVisitor {
-    constructor(path: string) {
-        this._segments = normalizeSegments(pathToSegments(path));
+    constructor(
+        path: string,
+        private readonly _predicate: Predicate) {
+            this._segments = normalizeSegments(pathToSegments(path));
     }
 
     private _segments: string[];
@@ -12,12 +15,12 @@ export class QueryVisitor {
         return segmentsToPath(this._accumulator);
     }
 
-    public get found(): boolean {
-        return this._index === this._segments.length;
-    }
-
     private get _index(): number {
         return this._accumulator.length;
+    }
+
+    public found(value: any): boolean {
+        return this._index === this._segments.length && this._predicate(value);
     }
 
     public goDown(segment: string): boolean {

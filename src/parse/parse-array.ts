@@ -13,7 +13,7 @@ export const array = (itemParser: JsonParser): JsonParser => (val: any, path: st
         }
 
         return (visitor: QueryVisitor) =>
-            visitor.found ?
+            visitor.found(val) ?
                 [{ value: val, path: visitor.currentPath }] :
                 flatten(queries.map((query, index: number) =>
                     executeQuery(query, visitor, `${index}`)));

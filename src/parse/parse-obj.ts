@@ -13,7 +13,7 @@ export const obj = (propParsers: JsonParser[]): JsonParser => (val: any, path: s
         }
 
         return (visitor: QueryVisitor) =>
-            visitor.found ?
+            visitor.found(val) ?
                 [{ value: val, path: visitor.currentPath }] :
                 flatten(queries.map(query => query(visitor)));
     }

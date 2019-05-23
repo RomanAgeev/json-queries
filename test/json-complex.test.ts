@@ -185,4 +185,11 @@ describe("json -> complex", () => {
             { value: "test leaf", path: "third/forth/fifth/leaf" },
         ]);
     });
+
+    it("find with predicate * -> * -> x", () => {
+        expect(query!.findMany("second/*/*/x", val => val === 10)).to.be.eql([
+            { value: 10, path: "second/prop2/0/x" },
+        ]);
+    });
+
 });

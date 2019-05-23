@@ -6,7 +6,7 @@ export type JsonValueType = "string" | "number" | "boolean";
 export const value = (type: JsonValueType) => (val: any, path: string): JsonIterator | JsonParseError[] => {
     if (typeof val === type) {
         return (visitor: QueryVisitor) =>
-            visitor.found ?
+            visitor.found(val) ?
                 [{ value: val, path: visitor.currentPath }] :
                 [];
     }
