@@ -47,4 +47,4 @@ export const prop = (name: string, valueParser: JsonParser): JsonParser => (val:
 
 export const propAny = (valueParser: JsonParser): JsonParser => prop(markAny, valueParser);
 
-export const propOptional = (name: string, valueParser: JsonParser): JsonParser => prop(`${name}?`, valueParser);
+export const propOptional = (name: string, valueParser: JsonParser): JsonParser => prop(`${name}${markOptional}`, valueParser);
