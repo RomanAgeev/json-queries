@@ -18,21 +18,21 @@ describe("json -> prop -> array -> value", () => {
         expect(errors).to.be.null;
         expect(query).to.be.not.null;
 
-        expect(query!.findMany("testArray/*")).to.be.eql([
+        expect(query!("testArray/*")).to.be.eql([
             { value: "A", path: "testArray/0" },
             { value: "B", path: "testArray/1" },
             { value: "C", path: "testArray/2" },
         ]);
 
-        expect(query!.findMany("testArray/0")).to.be.eql([
+        expect(query!("testArray/0")).to.be.eql([
             { value: "A", path: "testArray/0" },
         ]);
 
-        expect(query!.findMany("testArray/1")).to.be.eql([
+        expect(query!("testArray/1")).to.be.eql([
             { value: "B", path: "testArray/1" },
         ]);
 
-        expect(query!.findMany("testArray/2")).to.be.eql([
+        expect(query!("testArray/2")).to.be.eql([
             { value: "C", path: "testArray/2" },
         ]);
     });
@@ -49,7 +49,7 @@ describe("json -> prop -> array -> value", () => {
         expect(errors).to.be.null;
         expect(query).to.be.not.null;
 
-        expect(query!.findMany("testArray/*")).to.be.eql([]);
+        expect(query!("testArray/*")).to.be.eql([]);
     });
 
     it("wrong type array", () => {

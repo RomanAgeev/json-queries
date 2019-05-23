@@ -22,7 +22,7 @@ describe("json -> prop -> free -> value", () => {
         expect(errors).to.be.null;
         expect(query).to.be.not.null;
 
-        expect(query!.findMany("free/*")).to.be.eql([
+        expect(query!("free/*")).to.be.eql([
             { value: "text 1", path: "free/one" },
             { value: "text 2", path: "free/two" },
         ]);
@@ -36,7 +36,7 @@ describe("json -> prop -> free -> value", () => {
         expect(errors).to.be.null;
         expect(query).to.be.not.null;
 
-        expect(query!.findMany("free/*")).to.be.eql([]);
+        expect(query!("free/*")).to.be.eql([]);
     });
 
     [

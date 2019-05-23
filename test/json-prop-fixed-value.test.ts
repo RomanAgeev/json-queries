@@ -23,16 +23,16 @@ describe("json -> prop -> fixed -> value", () => {
         expect(errors).to.be.null;
         expect(query).to.be.not.null;
 
-        expect(query!.findMany("fixed/*")).to.be.eql([
+        expect(query!("fixed/*")).to.be.eql([
             { value: "text 1", path: "fixed/prop1" },
             { value: "text 2", path: "fixed/prop2" },
         ]);
 
-        expect(query!.findMany("fixed/prop1")).to.be.eql([
+        expect(query!("fixed/prop1")).to.be.eql([
             { value: "text 1", path: "fixed/prop1" },
         ]);
 
-        expect(query!.findMany("fixed/prop2")).to.be.eql([
+        expect(query!("fixed/prop2")).to.be.eql([
             { value: "text 2", path: "fixed/prop2" },
         ]);
     });

@@ -47,13 +47,13 @@ describe("json -> complex", () => {
     expect(query).to.be.not.null;
 
     it("find first", () => {
-        expect(query!.findMany("first")).to.be.eql([
+        expect(query!("first")).to.be.eql([
             { value: true, path: "first" },
         ]);
     });
 
     it("find second * -> * -> *", () => {
-        expect(query!.findMany("second/*/*/*")).to.be.eql([
+        expect(query!("second/*/*/*")).to.be.eql([
             { value: 1, path: "second/prop1/0/x" },
             { value: 2, path: "second/prop1/0/y" },
             { value: 3, path: "second/prop1/1/x" },
@@ -66,7 +66,7 @@ describe("json -> complex", () => {
     });
 
     it("find second * -> * -> x", () => {
-        expect(query!.findMany("second/*/*/x")).to.be.eql([
+        expect(query!("second/*/*/x")).to.be.eql([
             { value: 1, path: "second/prop1/0/x" },
             { value: 3, path: "second/prop1/1/x" },
             { value: 10, path: "second/prop2/0/x" },
@@ -75,7 +75,7 @@ describe("json -> complex", () => {
     });
 
     it("find second * -> 1 -> *", () => {
-        expect(query!.findMany("second/*/1/*")).to.be.eql([
+        expect(query!("second/*/1/*")).to.be.eql([
             { value: 3, path: "second/prop1/1/x" },
             { value: 4, path: "second/prop1/1/y" },
             { value: 30, path: "second/prop2/1/x" },
@@ -84,7 +84,7 @@ describe("json -> complex", () => {
     });
 
     it("find second prop2 -> * -> *", () => {
-        expect(query!.findMany("second/prop2/*/*")).to.be.eql([
+        expect(query!("second/prop2/*/*")).to.be.eql([
             { value: 10, path: "second/prop2/0/x" },
             { value: 20, path: "second/prop2/0/y" },
             { value: 30, path: "second/prop2/1/x" },
@@ -93,39 +93,39 @@ describe("json -> complex", () => {
     });
 
     it("find second prop2 -> * -> x", () => {
-        expect(query!.findMany("second/prop2/*/x")).to.be.eql([
+        expect(query!("second/prop2/*/x")).to.be.eql([
             { value: 10, path: "second/prop2/0/x" },
             { value: 30, path: "second/prop2/1/x" },
         ]);
     });
 
     it("find second prop2 -> 1 -> *", () => {
-        expect(query!.findMany("second/prop2/1/*")).to.be.eql([
+        expect(query!("second/prop2/1/*")).to.be.eql([
             { value: 30, path: "second/prop2/1/x" },
             { value: 40, path: "second/prop2/1/y" },
         ]);
     });
 
     it("find second prop2 -> 1 -> y", () => {
-        expect(query!.findMany("second/prop2/1/y")).to.be.eql([
+        expect(query!("second/prop2/1/y")).to.be.eql([
             { value: 40, path: "second/prop2/1/y" },
         ]);
     });
 
     it("find third -> forth -> fifth -> *", () => {
-        expect(query!.findMany("third/forth/fifth/*")).to.be.eql([
+        expect(query!("third/forth/fifth/*")).to.be.eql([
             { value: "test leaf", path: "third/forth/fifth/leaf" },
         ]);
     });
 
     it("find third -> forth -> fifth -> leaf", () => {
-        expect(query!.findMany("third/forth/fifth/leaf")).to.be.eql([
+        expect(query!("third/forth/fifth/leaf")).to.be.eql([
             { value: "test leaf", path: "third/forth/fifth/leaf" },
         ]);
     });
 
     it("find *", () => {
-        expect(query!.findMany("*")).to.be.eql([
+        expect(query!("*")).to.be.eql([
             { value: true, path: "first" },
             { value: testJson.second, path: "second" },
             { value: testJson.third, path: "third" },
@@ -133,7 +133,7 @@ describe("json -> complex", () => {
     });
 
     it("find * -> *", () => {
-        expect(query!.findMany("*/*")).to.be.eql([
+        expect(query!("*/*")).to.be.eql([
             { value: testJson.second.prop1, path: "second/prop1" },
             { value: testJson.second.prop2, path: "second/prop2" },
             { value: testJson.third.forth, path: "third/forth" },
@@ -141,7 +141,7 @@ describe("json -> complex", () => {
     });
 
     it("find * -> * -> *", () => {
-        expect(query!.findMany("*/*/*")).to.be.eql([
+        expect(query!("*/*/*")).to.be.eql([
             { value: testJson.second.prop1[0], path: "second/prop1/0" },
             { value: testJson.second.prop1[1], path: "second/prop1/1" },
             { value: testJson.second.prop2[0], path: "second/prop2/0" },
@@ -151,7 +151,7 @@ describe("json -> complex", () => {
     });
 
     it("find * -> * -> * -> *", () => {
-        expect(query!.findMany("*/*/*/*")).to.be.eql([
+        expect(query!("*/*/*/*")).to.be.eql([
             { value: testJson.second.prop1[0].x, path: "second/prop1/0/x" },
             { value: testJson.second.prop1[0].y, path: "second/prop1/0/y" },
             { value: testJson.second.prop1[1].x, path: "second/prop1/1/x" },
@@ -165,29 +165,29 @@ describe("json -> complex", () => {
     });
 
     it("find * -> * -> * -> * -> *", () => {
-        expect(query!.findMany("*/*/*/*/*")).to.be.eql([]);
+        expect(query!("*/*/*/*/*")).to.be.eql([]);
     });
 
     it("path normalization", () => {
-        expect(query!.findMany("second/prop1/0/x/../y")).to.be.eql([
+        expect(query!("second/prop1/0/x/../y")).to.be.eql([
             { value: 2, path: "second/prop1/0/y" },
         ]);
 
-        expect(query!.findMany("second/prop1/0/x/../../1/x")).to.be.eql([
+        expect(query!("second/prop1/0/x/../../1/x")).to.be.eql([
             { value: 3, path: "second/prop1/1/x" },
         ]);
 
-        expect(query!.findMany("second/prop1/0/x/../../../prop2/0/y")).to.be.eql([
+        expect(query!("second/prop1/0/x/../../../prop2/0/y")).to.be.eql([
             { value: 20, path: "second/prop2/0/y" },
         ]);
 
-        expect(query!.findMany("second/prop1/0/x/../../../../third/forth/fifth/leaf")).to.be.eql([
+        expect(query!("second/prop1/0/x/../../../../third/forth/fifth/leaf")).to.be.eql([
             { value: "test leaf", path: "third/forth/fifth/leaf" },
         ]);
     });
 
     it("find with predicate * -> * -> x", () => {
-        expect(query!.findMany("second/*/*/x", val => val === 10)).to.be.eql([
+        expect(query!("second/*/*/x", (val: any) => val === 10)).to.be.eql([
             { value: 10, path: "second/prop2/0/x" },
         ]);
     });

@@ -1,5 +1,5 @@
 import { JsonParser, JsonRootParser, obj, isJsonParseError } from "./parse";
-import { JsonQuery } from "./query";
+import { Predicate, QueryVisitor } from "./query";
 
 export const json = (propParsers: JsonParser[]): JsonRootParser => {
     const mapParser = obj(propParsers);
@@ -8,7 +8,13 @@ export const json = (propParsers: JsonParser[]): JsonRootParser => {
         const result = mapParser(val, "");
 
         return isJsonParseError(result) ?
-            { query: null, errors: result } :
-            { query: new JsonQuery(result), errors: null };
+            {
+                query: null,
+                errors: result,
+            } :
+            {
+                query: (path: string, predicate: Predicate = () => true) => result(new QueryVisitor(path, predicate)),
+                errors: null,
+            };
     };
 };

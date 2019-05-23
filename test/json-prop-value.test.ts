@@ -22,19 +22,19 @@ describe("json -> prop -> value", () => {
         expect(errors).to.be.null;
         expect(query).to.be.not.null;
 
-        expect(query!.findMany("strValue")).to.be.eql([
+        expect(query!("strValue")).to.be.eql([
             { value: "some text", path: "strValue" },
         ]);
 
-        expect(query!.findMany("numValue")).to.be.eql([
+        expect(query!("numValue")).to.be.eql([
             { value: 10, path: "numValue" },
         ]);
 
-        expect(query!.findMany("boolValue")).to.be.eql([
+        expect(query!("boolValue")).to.be.eql([
             { value: true, path: "boolValue" },
         ]);
 
-        expect(query!.findMany("*")).to.be.eql([
+        expect(query!("*")).to.be.eql([
             { value: "some text", path: "strValue" },
             { value: 10, path: "numValue" },
             { value: true, path: "boolValue" },
