@@ -1,7 +1,7 @@
 export { json } from "./parse/parse-json";
 export { obj } from "./parse/parse-obj";
 export { array } from "./parse/parse-array";
-export { prop, propAny } from "./parse/parse-prop";
+export { prop, propAny, propOptional } from "./parse/parse-prop";
 export { value, JsonValueType } from "./parse/parse-value";
 export { JsonParser, JsonRootParser } from "./parse/types";
 export { JsonParseError } from "./parse/errors";
