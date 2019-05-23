@@ -1,7 +1,7 @@
 import { normalizeSegments, pathToSegments, segmentsToPath, matchAnySegment } from "../utils";
-import { Predicate } from "./json-query";
+import { Predicate } from "./query";
 
-export class QueryVisitor {
+export class Visitor {
     constructor(
         path: string,
         private readonly _predicate: Predicate) {

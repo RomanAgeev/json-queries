@@ -1,7 +1,7 @@
-import { JsonParser } from "./types";
-import { JsonIterator, QueryVisitor, iterate } from "../query";
-import { JsonParseError, handleErrors, propertyError } from "./errors";
+import { Iterator, Visitor, iterate } from "../iterate";
+import { ParseError, handleErrors, propertyError } from "./errors";
 import { flatten, segmentsToPath } from "../utils";
+import { JsonParser } from "./parse-json";
 
 const markAny = "*";
 const markOptional = "?";
@@ -12,7 +12,7 @@ const isOptionalProp = (name: string): boolean => name.length > 1 && name.endsWi
 
 const optionalToName = (optionalName: string): string => optionalName.substring(0, optionalName.length - 1);
 
-export const prop = (name: string, valueParser: JsonParser): JsonParser => (val: any, path: string): JsonIterator | JsonParseError[] => {
+export const prop = (name: string, valueParser: JsonParser): JsonParser => (val: any, path: string): Iterator | ParseError[] => {
     let propNames: string[];
 
     if (isAnyProp(name)) {
@@ -40,7 +40,7 @@ export const prop = (name: string, valueParser: JsonParser): JsonParser => (val:
         return errors;
     }
 
-    return (visitor: QueryVisitor) =>
+    return (visitor: Visitor) =>
         flatten(iterators.map((iterator, index: number) =>
             iterate(iterator, visitor, propNames[index])));
 };

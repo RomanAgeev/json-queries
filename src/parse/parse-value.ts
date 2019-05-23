@@ -1,11 +1,11 @@
-import { JsonIterator, QueryVisitor } from "../query";
-import { JsonParseError, valueError } from "./errors";
+import { Iterator, Visitor } from "../iterate";
+import { ParseError, valueError } from "./errors";
 
 export type JsonValueType = "string" | "number" | "boolean";
 
-export const value = (type: JsonValueType) => (val: any, path: string): JsonIterator | JsonParseError[] => {
+export const value = (type: JsonValueType) => (val: any, path: string): Iterator | ParseError[] => {
     if (typeof val === type) {
-        return (visitor: QueryVisitor) =>
+        return (visitor: Visitor) =>
             visitor.found(val) ?
                 [{ value: val, path: visitor.currentPath }] :
                 [];

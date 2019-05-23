@@ -1,9 +1,9 @@
-import { JsonParser } from "./types";
-import { JsonIterator, QueryVisitor } from "../query";
-import { JsonParseError, handleErrors, objectError } from "./errors";
+import { Iterator, Visitor } from "../iterate";
+import { ParseError, handleErrors, objectError } from "./errors";
 import { flatten } from "../utils";
+import { JsonParser } from "./parse-json";
 
-export const obj = (propParsers: JsonParser[]): JsonParser => (val: any, path: string): JsonIterator | JsonParseError[] => {
+export const obj = (propParsers: JsonParser[]): JsonParser => (val: any, path: string): Iterator | ParseError[] => {
     if (val && typeof val === "object" && !(val instanceof Array)) {
         const results = val ? propParsers.map(propParser => propParser(val, path)) : [];
 
@@ -12,7 +12,7 @@ export const obj = (propParsers: JsonParser[]): JsonParser => (val: any, path: s
             return errors;
         }
 
-        return (visitor: QueryVisitor) =>
+        return (visitor: Visitor) =>
             visitor.found(val) ?
                 [{ value: val, path: visitor.currentPath }] :
                 flatten(iterators.map(iterator => iterator(visitor)));
