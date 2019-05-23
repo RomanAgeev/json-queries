@@ -1,5 +1,5 @@
 import { JsonParser } from "./types";
-import { JsonIterator, QueryVisitor, executeQuery } from "../query";
+import { JsonIterator, QueryVisitor, iterate } from "../query";
 import { JsonParseError, handleErrors, propertyError } from "./errors";
 import { flatten, segmentsToPath } from "../utils";
 
@@ -14,14 +14,14 @@ export const prop = (name: string, valueParser: JsonParser): JsonParser => (val:
 
     const results = propNames.map(propName => valueParser(val[propName], segmentsToPath([path, propName])));
 
-    const { queries, errors } = handleErrors(results);
+    const { iterators, errors } = handleErrors(results);
     if (errors.length > 0) {
         return errors;
     }
 
     return (visitor: QueryVisitor) =>
-        flatten(queries.map((query, index: number) =>
-            executeQuery(query, visitor, propNames[index])));
+        flatten(iterators.map((iterator, index: number) =>
+            iterate(iterator, visitor, propNames[index])));
 };
 
 export const propAny = (valueParser: JsonParser): JsonParser => prop(wildcard, valueParser);

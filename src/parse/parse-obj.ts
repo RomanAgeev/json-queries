@@ -7,7 +7,7 @@ export const obj = (propParsers: JsonParser[]): JsonParser => (val: any, path: s
     if (val && typeof val === "object" && !(val instanceof Array)) {
         const results = val ? propParsers.map(propParser => propParser(val, path)) : [];
 
-        const { queries, errors } = handleErrors(results);
+        const { iterators, errors } = handleErrors(results);
         if (errors.length  > 0) {
             return errors;
         }
@@ -15,7 +15,7 @@ export const obj = (propParsers: JsonParser[]): JsonParser => (val: any, path: s
         return (visitor: QueryVisitor) =>
             visitor.found(val) ?
                 [{ value: val, path: visitor.currentPath }] :
-                flatten(queries.map(query => query(visitor)));
+                flatten(iterators.map(iterator => iterator(visitor)));
     }
     return [objectError(path)];
 };

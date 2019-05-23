@@ -2,10 +2,10 @@ import { JsonParser, JsonRootParser, obj, isJsonParseError } from "./parse";
 import { Predicate, QueryVisitor } from "./query";
 
 export const json = (propParsers: JsonParser[]): JsonRootParser => {
-    const mapParser = obj(propParsers);
+    const objParser = obj(propParsers);
 
     return val => {
-        const result = mapParser(val, "");
+        const result = objParser(val, "");
 
         return isJsonParseError(result) ?
             {
