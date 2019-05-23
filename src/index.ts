@@ -1,4 +1,4 @@
-export { json } from "./json";
+export { json } from "./parse/parse-json";
 export { obj } from "./parse/parse-obj";
 export { array } from "./parse/parse-array";
 export { prop, propAny } from "./parse/parse-prop";

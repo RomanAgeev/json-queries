@@ -1,5 +1,7 @@
-import { JsonParser, JsonRootParser, obj, isJsonParseError } from "./parse";
-import { Predicate, QueryVisitor } from "./query";
+import { JsonParser, JsonRootParser } from "./types";
+import { obj } from "./parse-obj";
+import { isJsonParseError } from "./errors";
+import { Predicate, QueryVisitor } from "../query";
 
 export const json = (propParsers: JsonParser[]): JsonRootParser => {
     const objParser = obj(propParsers);

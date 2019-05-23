@@ -1,3 +1,3 @@
 export * from "./types";
 export * from "./errors";
-export * from "./parse-obj";
+export * from "./parse-json";
