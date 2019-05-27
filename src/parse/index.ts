@@ -4,3 +4,4 @@ export * from "./parse-obj";
 export * from "./parse-array";
 export * from "./parse-prop";
 export * from "./parse-value";
+export * from "./parse-variable";

@@ -26,3 +26,6 @@ export const propertyError = (name: string, path: string) => new ParseError(`pro
 
 export const valueError = (type: JsonValueType, obj: any, path: string) =>
     new ParseError(`value of type ${type} is expected, but "${obj}" is provided`, path);
+
+export const variableError = (obj: any, path: string) =>
+    new ParseError(`variable \${VAR_NAME} is expected, but "${obj}" is provided`, path);
