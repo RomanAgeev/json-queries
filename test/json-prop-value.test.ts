@@ -69,7 +69,6 @@ describe("json -> prop -> value", () => {
         [],
         () => true,
         null,
-        undefined,
     ]
     .forEach(testValue => {
         it(`wrong value : ${valueToString(testValue)}`, () => {
@@ -86,6 +85,23 @@ describe("json -> prop -> value", () => {
             ]);
             expect(query).to.be.null;
         });
+    });
+
+    it("undefined value", () => {
+        const parser = json([
+            prop("value", value("string")),
+        ]);
+
+        const { query, errors } = parser({
+            value: undefined,
+        });
+
+        expect(errors).to.be.null;
+        expect(query).to.be.not.null;
+
+        expect(query!("value")).to.be.eql([
+            { value: undefined, path: "value" },
+        ]);
     });
 
     [
