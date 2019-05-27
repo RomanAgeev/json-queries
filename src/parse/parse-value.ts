@@ -15,12 +15,20 @@ export const value = (type: JsonValueType, resolver: VariableResolver = envResol
             if (variable) {
                 resolvedValue = resolver(variable.variableName);
                 if (!resolvedValue) {
-                    resolvedValue = convertValue(variable.defaultValue, type);
+                    resolvedValue = variable.defaultValue;
+                    switch (type) {
+                        case "number":
+                            resolvedValue = Number(resolvedValue);
+                            break;
+                        case "boolean":
+                            resolvedValue = Boolean(resolvedValue);
+                            break;
+                    }
                 }
             }
         }
 
-        if (typeof resolvedValue === type || resolvedValue === undefined) {
+        if (!resolvedValue || typeof resolvedValue === type) {
             return (visitor: Visitor) =>
                 visitor.found(val) ?
                     [{ value: resolvedValue, path: visitor.currentPath }] :
@@ -40,16 +48,4 @@ const parseVariable = (val: any): { variableName: string, defaultValue?: string 
         return defaultValue ? { variableName, defaultValue } : { variableName };
     }
     return null;
-};
-
-const convertValue = (val: string | undefined, type: JsonValueType): any => {
-    if (type === "number") {
-        return Number(val);
-    }
-
-    if (type === "boolean") {
-        return Boolean(val);
-    }
-
-    return val;
 };

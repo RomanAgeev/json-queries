@@ -68,7 +68,6 @@ describe("json -> prop -> value", () => {
         {},
         [],
         () => true,
-        null,
     ]
     .forEach(testValue => {
         it(`wrong value : ${valueToString(testValue)}`, () => {
@@ -87,21 +86,27 @@ describe("json -> prop -> value", () => {
         });
     });
 
-    it("undefined value", () => {
-        const parser = json([
-            prop("value", value("string")),
-        ]);
+    [
+        undefined,
+        null,
+    ]
+    .forEach(testValue => {
+        it(`no value: ${valueToString(testValue)}`, () => {
+            const parser = json([
+                prop("value", value("string")),
+            ]);
 
-        const { query, errors } = parser({
-            value: undefined,
+            const { query, errors } = parser({
+                value: testValue,
+            });
+
+            expect(errors).to.be.null;
+            expect(query).to.be.not.null;
+
+            expect(query!("value")).to.be.eql([
+                { value: testValue, path: "value" },
+            ]);
         });
-
-        expect(errors).to.be.null;
-        expect(query).to.be.not.null;
-
-        expect(query!("value")).to.be.eql([
-            { value: undefined, path: "value" },
-        ]);
     });
 
     [
