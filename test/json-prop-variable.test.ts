@@ -1,7 +1,7 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
 import { json, prop, value } from "../src";
-import { valueError, JsonValueType } from "../src/parse";
+import { JsonValueType } from "../src/parse";
 import { valueToString } from "./test-utils";
 
 describe("json -> prop -> variable", () => {
