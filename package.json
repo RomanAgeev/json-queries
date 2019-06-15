@@ -5,8 +5,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build-prod": "./node_modules/.bin/tsc --project ./tsconfig.prod.json",
-    "test": "./node_modules/.bin/mocha -r ts-node/register ./test/**/*.ts"
+    "build-prod": "tsc --project ./tsconfig.prod.json",
+    "test": "mocha -r ts-node/register ./test/**/*.ts"
   },
   "author": "Roman Ageev",
   "license": "ISC",
